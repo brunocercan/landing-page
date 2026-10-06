@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfólio de Bruno Cercan Garcia — Desenvolvedor Back-End .NET" />
+  <title>Bruno Cercan Garcia · Desenvolvedor Back-End .NET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --bg-soft: #0f1524;
+      --card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.18);
+      --text: #e6eaf2;
+      --text-muted: #95a0b5;
+      --accent: #6366f1;
+      --accent-2: #22d3ee;
+      --gradient: linear-gradient(100deg, #6366f1, #22d3ee);
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: rgba(99, 102, 241, 0.4); }
+
+    /* ---------- Decorative background ---------- */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+    #bg3d {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 500px; height: 500px; background: #6366f1; top: -10%; left: -10%; }
+    .orb-2 { width: 420px; height: 420px; background: #22d3ee; top: 40%; right: -12%; animation-delay: -6s; }
+    .orb-3 { width: 380px; height: 380px; background: #a855f7; bottom: -10%; left: 30%; animation-delay: -12s; }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, -40px) scale(1.1); }
+    }
+
+    /* ---------- Navigation ---------- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(10, 14, 23, 0.7);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo span { color: var(--accent-2); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ---------- Layout ---------- */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 90px 0; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      display: block;
+      margin-bottom: 12px;
+    }
+    h2.section-title {
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+    }
+
+    /* ---------- Reveal on scroll ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 64px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: var(--card);
+      width: fit-content;
+      margin-bottom: 28px;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 10px #34d399;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 7vw, 4.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 18px;
+    }
+    .hero h1 .grad {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero .role {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .hero .role code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      color: var(--accent-2);
+      background: rgba(34, 211, 238, 0.08);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .hero .location {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.35);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border-hover);
+      color: var(--text);
+      background: var(--card);
+    }
+    .btn-ghost:hover { border-color: var(--accent); }
+
+    /* ---------- About ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 28px;
+    }
+    .about-text {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .about-text p { color: var(--text-muted); margin-bottom: 16px; }
+    .about-text p strong { color: var(--text); }
+    .about-side { display: flex; flex-direction: column; gap: 16px; }
+    .info-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 26px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .info-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+    .info-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-2);
+      margin-bottom: 6px;
+    }
+    .info-card p { font-size: 0.95rem; }
+
+    /* ---------- Skills ---------- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .skill-card:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    .skill-card .icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.12);
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+    .skill-card h3 { font-size: 1.05rem; margin-bottom: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.02);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .chip:hover { color: var(--accent-2); border-color: rgba(34, 211, 238, 0.5); }
+
+    /* ---------- Experience timeline ---------- */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 6px; bottom: 6px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent-2), transparent);
+      border-radius: 2px;
+    }
+    .job { position: relative; padding-bottom: 44px; }
+    .job:last-child { padding-bottom: 0; }
+    .job::before {
+      content: '';
+      position: absolute;
+      left: -31px; top: 6px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
+    }
+    .job-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .job-card:hover { border-color: var(--border-hover); transform: translateX(4px); }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .job-header h3 { font-size: 1.2rem; }
+    .job-header .company { color: var(--accent-2); font-weight: 600; }
+    .job-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .job-desc { color: var(--text-muted); font-size: 0.95rem; margin: 10px 0 16px; }
+
+    /* ---------- Education ---------- */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .edu-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+    .edu-card .year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-2);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .edu-card h3 { font-size: 1.05rem; margin-bottom: 4px; }
+    .edu-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ---------- Contact ---------- */
+    .contact-box {
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 64px 32px;
+      background:
+        radial-gradient(600px 300px at 50% 0%, rgba(99, 102, 241, 0.12), transparent),
+        var(--card);
+    }
+    .contact-box h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.02em; margin-bottom: 14px; }
+    .contact-box > p { color: var(--text-muted); max-width: 480px; margin: 0 auto 32px; }
+    .contact-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer span { font-family: 'JetBrains Mono', monospace; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 720px) {
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 0.8rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      section { padding: 64px 0; }
+      .job-card, .about-text { padding: 22px; }
+    }
+    @media (max-width: 480px) {
+      .nav-inner { padding: 0 16px; }
+      main { padding: 0 16px; }
+      .nav-links li:nth-child(2) { display: none; } /* hide middle links on tiny screens */
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg3d"></canvas>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="#top" class="logo">&lt;bruno<span>.dev</span>/&gt;</a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#competencias">Competências</a></li>
+        <li><a href="#experiencia">Experiência</a></li>
+        <li><a href="#formacao">Formação</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <header class="hero" id="hero">
+      <div class="hero-badge"><span class="dot"></span> Disponível para novas oportunidades</div>
+      <h1>Bruno Cercan <span class="grad">Garcia</span></h1>
+      <p class="role">Desenvolvedor Back-End <code>.NET</code> · C# · APIs · Cloud</p>
+      <p class="location">📍 Osasco, São Paulo — Brasil · Inglês Avançado</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="mailto:bruno.cercan@gmail.com">✉️ Entrar em contato</a>
+        <a class="btn btn-ghost" href="https://github.com/brunocercan" target="_blank" rel="noopener">GitHub →</a>
+      </div>
+    </header>
+
+    <!-- SOBRE -->
+    <section id="sobre" class="reveal">
+      <span class="section-label">// sobre</span>
+      <h2 class="section-title">Quem sou eu</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Sou <strong>desenvolvedor back-end</strong> com foco no ecossistema <strong>.NET / C#</strong>,
+            com mais de 5 anos de experiência construindo e mantendo <strong>APIs e integrações</strong>
+            para o setor bancário e financeiro.
+          </p>
+          <p>
+            Atuei no <strong>Banco Safra</strong> no desenvolvimento de funcionalidades de cartões e no
+            <strong>Banco Alfa</strong> em integrações entre sistemas internos e externos. Também tenho
+            vivência em <strong>DevOps</strong> — pipelines CI/CD, observabilidade com Grafana/Loki/Prometheus
+            e provisionamento de infraestrutura em <strong>AWS</strong> com Terraform, Docker e Kubernetes.
+          </p>
+          <p>
+            Trabalho com bancos de dados relacionais e não-relacionais, mensageria e ferramentas modernas
+            de <strong>IA (Cursor, Claude, GPT)</strong> no fluxo de desenvolvimento.
+          </p>
+        </div>
+        <div class="about-side">
+          <div class="info-card">
+            <h4>Localização</h4>
+            <p>Osasco — SP, Brasil</p>
+          </div>
+          <div class="info-card">
+            <h4>E-mail</h4>
+            <p>bruno.cercan@gmail.com</p>
+          </div>
+          <div class="info-card">
+            <h4>Telefone</h4>
+            <p>+55 (11) 9 5329-1238</p>
+          </div>
+          <div class="info-card">
+            <h4>Idiomas</h4>
+            <p>Português (nativo) · Inglês (avançado)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPETÊNCIAS -->
+    <section id="competencias" class="reveal">
+      <span class="section-label">// competências</span>
+      <h2 class="section-title">Stack &amp; Ferramentas</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="icon">⚙️</div>
+          <h3>Back-End</h3>
+          <div class="chips">
+            <span class="chip">C#</span><span class="chip">.NET 4.6 → 9</span>
+            <span class="chip">.NET Core</span><span class="chip">Python</span>
+            <span class="chip">Flask</span><span class="chip">REST APIs</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">🗄️</div>
+          <h3>Bancos de Dados</h3>
+          <div class="chips">
+            <span class="chip">MySQL</span><span class="chip">SQL Server</span>
+            <span class="chip">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">📨</div>
+          <h3>Mensageria</h3>
+          <div class="chips">
+            <span class="chip">RabbitMQ</span><span class="chip">Kafka</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">☁️</div>
+          <h3>DevOps &amp; Cloud</h3>
+          <div class="chips">
+            <span class="chip">AWS</span><span class="chip">Docker</span>
+            <span class="chip">Kubernetes</span><span class="chip">Terraform</span>
+            <span class="chip">CI/CD</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">📊</div>
+          <h3>Observabilidade</h3>
+          <div class="chips">
+            <span class="chip">Grafana</span><span class="chip">Prometheus</span>
+            <span class="chip">Loki / Promtail</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">🛠️</div>
+          <h3>Ferramentas</h3>
+          <div class="chips">
+            <span class="chip">Git</span><span class="chip">TFS</span>
+            <span class="chip">Cursor</span><span class="chip">Claude AI</span>
+            <span class="chip">GPT-4</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIÊNCIA -->
+    <section id="experiencia" class="reveal">
+      <span class="section-label">// experiência</span>
+      <h2 class="section-title">Trajetória Profissional</h2>
+      <div class="timeline">
+
+        <article class="job">
+          <div class="job-card">
+            <div class="job-header">
+              <h3><span class="company">Banco Safra</span> · Analista Desenvolvedor</h3>
+              <span class="job-period">Abr 2025 — Jun 2026</span>
+            </div>
+            <p class="job-desc">
+              Manutenção e desenvolvimento de novas APIs e funcionalidades de cartões em .NET,
+              utilizando ferramentas de IA/LLMs no fluxo de desenvolvimento.
+            </p>
+            <div class="chips">
+              <span class="chip">C#</span><span class="chip">.NET 4.6 → 9 LTS</span>
+              <span class="chip">MySQL</span><span class="chip">MongoDB</span>
+              <span class="chip">Cursor</span><span class="chip">Claude</span>
+              <span class="chip">GPT 4.1</span><span class="chip">Git</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-card">
+            <div class="job-header">
+              <h3><span class="company">Banco Alfa</span> · Analista Desenvolvedor Jr</h3>
+              <span class="job-period">Ago 2022 — Abr 2025</span>
+            </div>
+            <p class="job-desc">
+              Manutenção e desenvolvimento de novas APIs e funcionalidades para integração
+              de sistemas internos do banco com sistemas externos.
+            </p>
+            <div class="chips">
+              <span class="chip">C#</span><span class="chip">.NET Core 2.2 → .NET 6</span>
+              <span class="chip">SQL Server</span><span class="chip">RabbitMQ</span>
+              <span class="chip">Git/TFS</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-card">
+            <div class="job-header">
+              <h3><span class="company">Inmetrics</span> · Analista de DevOps Jr</h3>
+              <span class="job-period">Mar 2021 — Jun 2022</span>
+            </div>
+            <p class="job-desc">
+              Desenvolvimento de pipelines CI/CD, monitoramento de recursos, chamadas e logs
+              com Loki/Promtail em APIs, dashboards com Grafana e provisionamento de
+              ambiente cloud em AWS.
+            </p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">Flask</span>
+              <span class="chip">MySQL</span><span class="chip">Kafka</span>
+              <span class="chip">Terraform</span><span class="chip">Docker</span>
+              <span class="chip">Kubernetes</span><span class="chip">AWS</span>
+              <span class="chip">Grafana</span><span class="chip">Prometheus</span>
+              <span class="chip">Loki</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="job-card">
+            <div class="job-header">
+              <h3><span class="company">Guasti Informática</span> · Estagiário</h3>
+              <span class="job-period">Mar 2019 — Ago 2019</span>
+            </div>
+            <p class="job-desc">
+              Desenvolvimento de novas features no portal de pagamentos de tributos,
+              suporte e treinamento aos usuários do portal.
+            </p>
+            <div class="chips">
+              <span class="chip">C#</span><span class="chip">SQL Server</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- FORMAÇÃO -->
+    <section id="formacao" class="reveal">
+      <span class="section-label">// formação</span>
+      <h2 class="section-title">Formação Acadêmica</h2>
+      <div class="edu-grid">
+        <div class="edu-card">
+          <span class="year">2016 — 2021</span>
+          <h3>Bacharelado em Sistemas de Informação</h3>
+          <p>Universidade de Mogi das Cruzes (UMC — Villa Lobos)</p>
+        </div>
+        <div class="edu-card">
+          <span class="year">2012 — 2015</span>
+          <h3>Mecatrônica, Robótica e Engenharia de Controle e Automação</h3>
+          <p>FITO — Fundação Instituto Tecnológico de Osasco</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato" class="reveal">
+      <div class="contact-box">
+        <h2>Vamos conversar?</h2>
+        <p>Estou aberto a novas oportunidades e projetos. Entre em contato por e-mail, telefone ou GitHub.</p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:bruno.cercan@gmail.com">✉️ bruno.cercan@gmail.com</a>
+          <a class="btn btn-ghost" href="tel:+5511953291238">📱 +55 (11) 9 5329-1238</a>
+          <a class="btn btn-ghost" href="https://github.com/brunocercan" target="_blank" rel="noopener">GitHub →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>© 2026 Bruno Cercan Garcia</span> — feito com HTML, CSS &amp; ☕
+  </footer>
+
+  <script>
+    // Reveal sections on scroll
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+
+  <script>
+    // ----- Fundo 3D: campo de partículas em constelação -----
+    // A "câmera" viaja pelo campo conforme o usuário rola a página
+    // e o campo rotaciona suavemente, com parallax do mouse.
+    (() => {
+      const canvas = document.getElementById('bg3d');
+      const ctx = canvas.getContext('2d');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const DEPTH = 1400;
+      const PALETTE = ['99,102,241', '34,211,238', '168,85,247', '226,232,255'];
+
+      let W, H, DPR, fov, HZ, spreadX, spreadY;
+      let points = [];
+      let rsT;
+
+      function setup() {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = canvas.width = window.innerWidth * DPR;
+        H = canvas.height = window.innerHeight * DPR;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        fov = 900 * DPR;
+        HZ = (DEPTH / 2) * DPR;
+        spreadX = W * 0.42;
+        spreadY = H * 0.42;
+        const count = Math.max(70, Math.min(160, Math.floor((window.innerWidth * window.innerHeight) / 12000)));
+        points = Array.from({ length: count }, () => ({
+          x: (Math.random() * 2 - 1) * spreadX,
+          y: (Math.random() * 2 - 1) * spreadY,
+          z: Math.random() * DEPTH * DPR,
+          c: PALETTE[(Math.random() * PALETTE.length) | 0],
+          r: (1 + Math.random() * 1.6) * DPR,
+          tw: Math.random() * Math.PI * 2,
+        }));
+      }
+
+      let mouseX = 0, mouseY = 0, curMX = 0, curMY = 0;
+      window.addEventListener('pointermove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      }, { passive: true });
+
+      function scrollProgress() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        return max > 0 ? window.scrollY / max : 0;
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, W, H);
+        const sp = scrollProgress();
+
+        curMX += (mouseX - curMX) * 0.06;
+        curMY += (mouseY - curMY) * 0.06;
+
+        // Rotação: giro contínuo suave + giro guiado pelo scroll + parallax do mouse
+        const aY = t * 0.00005 + sp * Math.PI * 1.4 + curMX * 0.18;
+        const aX = Math.sin(t * 0.00004) * 0.06 + curMY * 0.12;
+        const sinY = Math.sin(aY), cosY = Math.cos(aY);
+        const sinX = Math.sin(aX), cosX = Math.cos(aX);
+        const cx = W / 2, cy = H / 2;
+
+        // Projeção 3D → 2D
+        const proj = [];
+        for (const p of points) {
+          const zc = p.z - HZ;
+          const x1 = p.x * cosY + zc * sinY;
+          const z1 = -p.x * sinY + zc * cosY;
+          const y1 = p.y * cosX - z1 * sinX;
+          const z2 = p.y * sinX + z1 * cosX;
+
+          const s = fov / (fov + z2);
+          const px = cx + x1 * s;
+          const py = cy + y1 * s;
+          if (px < -60 || px > W + 60 || py < -60 || py > H + 60) continue;
+
+          const depth = (z2 + HZ) / (2 * HZ); // 0 = perto, 1 = longe
+          const twinkle = 0.8 + 0.2 * Math.sin(t * 0.002 + p.tw);
+          const alpha = Math.min(1, (1 - depth * 0.7) * twinkle) * 0.9;
+          proj.push({
+            px, py,
+            rad: Math.min(Math.max(0.4, p.r * s), 9 * DPR),
+            c: p.c, alpha,
+          });
+        }
+
+        ctx.globalCompositeOperation = 'lighter';
+
+        // Linhas ligando partículas próximas (efeito constelação)
+        const linkDist = 130 * DPR;
+        const linkDist2 = linkDist * linkDist;
+        ctx.lineWidth = DPR * 0.6;
+        for (let i = 0; i < proj.length; i++) {
+          const a = proj[i];
+          for (let j = i + 1; j < proj.length; j++) {
+            const b = proj[j];
+            const dx = a.px - b.px;
+            if (dx > linkDist || dx < -linkDist) continue;
+            const dy = a.py - b.py;
+            if (dy > linkDist || dy < -linkDist) continue;
+            const d2 = dx * dx + dy * dy;
+            if (d2 > linkDist2) continue;
+            const la = (1 - Math.sqrt(d2) / linkDist) * 0.18 * Math.min(a.alpha, b.alpha);
+            ctx.strokeStyle = `rgba(129,140,248,${la.toFixed(3)})`;
+            ctx.beginPath();
+            ctx.moveTo(a.px, a.py);
+            ctx.lineTo(b.px, b.py);
+            ctx.stroke();
+          }
+        }
+
+        // Partículas
+        for (const pt of proj) {
+          ctx.fillStyle = `rgba(${pt.c},${pt.alpha.toFixed(3)})`;
+          ctx.beginPath();
+          ctx.arc(pt.px, pt.py, pt.rad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      function loop(t) {
+        draw(t || 0);
+        if (!reducedMotion) requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', () => {
+        clearTimeout(rsT);
+        rsT = setTimeout(() => {
+          setup();
+          if (reducedMotion) draw(0);
+        }, 150);
+      });
+
+      setup();
+      requestAnimationFrame(loop);
+      if (reducedMotion) {
+        window.addEventListener('scroll', () => draw(0), { passive: true });
+      }
+    })();
+  </script>
+</body>
+</html>
